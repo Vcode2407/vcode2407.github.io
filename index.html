@@ -13,60 +13,61 @@
     <style>
         body { 
             font-family: 'Poppins', sans-serif; 
-            background: linear-gradient(135deg, #0d1b2a, #1b263b); 
-            color: #e0e7ff; 
+            background: linear-gradient(135deg, #0f172a, #1e293b); 
+            color: #e2e8f0; 
+            line-height: 1.6; 
+            position: relative; 
             overflow-x: hidden; 
         }
-        .section-header { 
-            border-bottom: 2px solid #a78bfa; 
-            padding-bottom: 0.5rem; 
-            margin-bottom: 1rem; 
-            text-shadow: 0 0 10px rgba(167, 139, 250, 0.5); 
-            font-family: 'Orbitron', sans-serif; 
-        }
-        .card { 
-            background: rgba(255, 255, 255, 0.05); 
-            backdrop-filter: blur(15px); 
-            padding: 1.5rem; 
-            border-radius: 1rem; 
-            margin-bottom: 1.5rem; 
-            perspective: 1000px; 
-            transition: transform 0.5s ease; 
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); 
-        }
-        .card-inner { 
-            position: relative; 
-            transform-style: preserve-3d; 
-            transition: transform 0.6s; 
-        }
-        .card:hover .card-inner { 
-            transform: rotateY(180deg); 
-        }
-        .card-front, .card-back { 
-            position: absolute; 
+        .wave-bg { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
             width: 100%; 
             height: 100%; 
-            backface-visibility: hidden; 
-            padding: 1rem; 
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(59, 130, 246, 0.1)" fill-opacity="1" d="M0,224L48,213.3C96,203,192,181,288,165.3C384,149,480,139,576,160C672,181,768,235,864,245.3C960,256,1056,224,1152,208C1248,192,1344,192,1392,192L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>'); 
+            background-size: cover; 
+            animation: wave 15s infinite linear; 
+            z-index: -1; 
         }
-        .card-back { 
-            transform: rotateY(180deg); 
-            background: linear-gradient(135deg, #a78bfa, #ec4899); 
-            color: #fff; 
-            border-radius: 1rem; 
+        @keyframes wave { 
+            0% { transform: translateX(0); } 
+            50% { transform: translateX(-25%); } 
+            100% { transform: translateX(0); } 
+        }
+        .section-header { 
+            border-bottom: 2px solid #3b82f6; 
+            padding-bottom: 0.5rem; 
+            margin-bottom: 1.5rem; 
+            font-size: 2.5rem; 
+            font-weight: 600; 
+            font-family: 'Orbitron', sans-serif; 
+            text-shadow: 0 0 5px rgba(59, 130, 246, 0.3); 
+        }
+        .card { 
+            background: rgba(30, 41, 59, 0.9); 
+            padding: 1.5rem; 
+            border-radius: 0.5rem; 
+            margin-bottom: 1.5rem; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
+            perspective: 1000px; 
+        }
+        .card:hover { 
+            transform: translateY(-5px) rotateX(5deg) rotateY(5deg); 
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3); 
         }
         a { 
-            color: #a78bfa; 
+            color: #3b82f6; 
             transition: color 0.3s ease, text-shadow 0.3s ease; 
         }
         a:hover { 
-            color: #ec4899; 
-            text-shadow: 0 0 10px rgba(236, 72, 153, 0.7); 
+            color: #60a5fa; 
+            text-shadow: 0 0 5px rgba(59, 130, 246, 0.5); 
         }
         #navbar { 
-            transition: all 0.3s ease; 
-            background: rgba(11, 20, 44, 0.95); 
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5); 
+            background: rgba(15, 23, 42, 0.95); 
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); 
         }
         .sticky { 
             position: fixed; 
@@ -75,89 +76,110 @@
             z-index: 50; 
         }
         .skill-badge { 
-            background: linear-gradient(45deg, #a78bfa, #ec4899); 
+            background: #334155; 
             padding: 0.5rem 1rem; 
             border-radius: 0.5rem; 
             margin: 0.3rem; 
             display: inline-block; 
-            box-shadow: 0 0 10px rgba(167, 139, 250, 0.5); 
-            transition: transform 0.3s ease; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
         }
         .skill-badge:hover { 
-            transform: scale(1.1); 
+            transform: scale(1.05); 
+            box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); 
         }
         .fade-in { 
             opacity: 0; 
-            transform: translateY(30px); 
-            animation: fadeIn 1s forwards; 
+            transform: translateY(20px); 
+            animation: fadeIn 0.8s forwards; 
         }
         @keyframes fadeIn { 
             to { opacity: 1; transform: translateY(0); } 
         }
-        .glow-button { 
-            background: linear-gradient(45deg, #a78bfa, #ec4899); 
-            box-shadow: 0 0 15px rgba(167, 139, 250, 0.7); 
-            animation: glowPulse 2s infinite; 
+        .cta-button { 
+            background: #3b82f6; 
+            padding: 0.75rem 1.5rem; 
+            border-radius: 0.5rem; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); 
         }
-        @keyframes glowPulse { 
-            0%, 100% { box-shadow: 0 0 15px rgba(167, 139, 250, 0.7); } 
-            50% { box-shadow: 0 0 30px rgba(236, 72, 153, 0.9); } 
+        .cta-button:hover { 
+            transform: scale(1.05); 
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.7); 
         }
-        #particles { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            z-index: -1; 
+        .hero-text { 
+            transition: transform 0.5s ease; 
+        }
+        .hero-text:hover { 
+            transform: translateZ(20px); 
+        }
+        .typing { 
+            display: inline-block; 
+            overflow: hidden; 
+            white-space: nowrap; 
+            border-right: 2px solid #3b82f6; 
+            animation: typing 3s steps(40) infinite, blink 0.75s step-end infinite; 
+        }
+        @keyframes typing { 
+            0% { width: 0; } 
+            50% { width: 100%; } 
+            100% { width: 0; } 
+        }
+        @keyframes blink { 
+            50% { border-color: transparent; } 
+        }
+        .social-icon { 
+            display: inline-block; 
+            transition: transform 0.5s ease; 
+        }
+        .social-icon:hover { 
+            transform: rotateY(360deg); 
         }
         @media (max-width: 640px) { 
             .container { padding: 1rem; } 
-            .card:hover .card-inner { transform: none; } 
+            .section-header { font-size: 2rem; } 
+            .card:hover { transform: translateY(-5px); } 
         }
     </style>
 </head>
 <body class="antialiased">
-    <!-- Particles Background -->
-    <div id="particles"></div>
+    <!-- Wave Background -->
+    <div class="wave-bg"></div>
 
     <!-- Navbar -->
     <nav id="navbar" class="py-4">
         <div class="container mx-auto flex justify-center space-x-4 sm:space-x-6">
-            <a href="#about" class="text-gray-200 hover:text-white">About</a>
-            <a href="#skills" class="text-gray-200 hover:text-white">Skills</a>
-            <a href="#experience" class="text-gray-200 hover:text-white">Experience</a>
-            <a href="#projects" class="text-gray-200 hover:text-white">Projects</a>
-            <a href="#achievements" class="text-gray-200 hover:text-white">Achievements</a>
-            <a href="#contact" class="text-gray-200 hover:text-white">Contact</a>
-            <a href="clicks.html" class="text-gray-200 hover:text-white">Clicks</a>
+            <a href="#about" class="text-gray-300 hover:text-white">About</a>
+            <a href="#skills" class="text-gray-300 hover:text-white">Skills</a>
+            <a href="#experience" class="text-gray-300 hover:text-white">Experience</a>
+            <a href="#projects" class="text-gray-300 hover:text-white">Projects</a>
+            <a href="#achievements" class="text-gray-300 hover:text-white">Achievements</a>
+            <a href="#contact" class="text-gray-300 hover:text-white">Contact</a>
+            <a href="clicks.html" class="text-gray-300 hover:text-white">Clicks</a>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="relative py-20 text-center overflow-hidden">
-        <div class="container mx-auto relative z-10">
-            <h1 class="text-5xl sm:text-6xl font-bold mb-4 fade-in" style="font-family: 'Orbitron', sans-serif; text-shadow: 0 0 20px rgba(167, 139, 250, 0.7);">
-                Vinay Kumar
-            </h1>
-            <p class="text-xl sm:text-2xl text-gray-300 mb-8 fade-in">Software Developer | Finance & Compliance Specialist</p>
-            <a href="#contact" class="glow-button text-white px-8 py-4 rounded-full text-lg transition fade-in">Get in Touch</a>
+    <section class="bg-transparent py-20 text-center relative z-10">
+        <div class="container mx-auto">
+            <h1 class="text-4xl sm:text-5xl font-bold mb-4 fade-in hero-text">Vinay Kumar</h1>
+            <p class="text-lg sm:text-xl text-gray-400 mb-6 fade-in typing">Software Developer | Finance & Compliance Specialist</p>
+            <a href="#contact" class="cta-button text-white fade-in">Get in Touch</a>
         </div>
     </section>
 
     <!-- Main Content -->
-    <div class="container mx-auto py-16 px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="container mx-auto py-12 px-4 sm:px-6 lg:px-8 relative z-10">
         <!-- About Section -->
-        <section id="about" class="mb-20 fade-in">
-            <h2 class="text-4xl font-bold section-header">About Me</h2>
+        <section id="about" class="mb-16 fade-in">
+            <h2 class="section-header">About Me</h2>
             <p class="text-lg">
                 I'm Vinay Kumar, a final-year B.Tech student in Computer Science (AI/ML Specialization) at VIT-AP University, passionate about building innovative platform tools for finance, accounting, and compliance. As a skilled software developer, I specialize in Python, Java, SQL, Elasticsearch, and Shell Script, focusing on trade reconciliation, books management, and regulatory systems. With strong communication skills and quantitative problem-solving abilities, I aim to join Tower Research Capital’s Post-Trade team to drive technological innovation in finance.
             </p>
         </section>
 
         <!-- Skills Section -->
-        <section id="skills" class="mb-20 fade-in">
-            <h2 class="text-4xl font-bold section-header">Skills</h2>
+        <section id="skills" class="mb-16 fade-in">
+            <h2 class="section-header">Skills</h2>
             <div class="flex flex-wrap">
                 <span class="skill-badge">Python</span>
                 <span class="skill-badge">Java</span>
@@ -190,122 +212,87 @@
         </section>
 
         <!-- Experience Section -->
-        <section id="experience" class="mb-20 fade-in">
-            <h2 class="text-4xl font-bold section-header">Experience</h2>
+        <section id="experience" class="mb-16 fade-in">
+            <h2 class="section-header">Experience</h2>
             <div class="card">
-                <div class="card-inner">
-                    <div class="card-front">
-                        <h3 class="font-semibold text-2xl">Software Developer Intern, KC Tech, Coimbatore</h3>
-                        <p class="text-sm text-gray-400">Aug 2022 - Nov 2022</p>
-                        <ul class="list-disc list-inside mt-2">
-                            <li>Developed Python and Java platform tools for trade reconciliation, boosting accounting accuracy by 20%</li>
-                            <li>Optimized MySQL and Elasticsearch queries for books and finance data, cutting execution time by 15%</li>
-                            <li>Automated regulatory data ingestion with shell scripts on Linux, saving 10 hours/week</li>
-                            <li>Collaborated on user requirements for compliance tools, ensuring 100% alignment</li>
-                        </ul>
-                    </div>
-                    <div class="card-back flex items-center justify-center">
-                        <p class="text-center font-semibold">Technologies: Python, Java, MySQL, Elasticsearch, Shell Script, Linux</p>
-                    </div>
-                </div>
+                <h3 class="font-semibold text-xl">Software Developer Intern, KC Tech, Coimbatore</h3>
+                <p class="text-sm text-gray-400">Aug 2022 - Nov 2022</p>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li>Developed Python and Java platform tools for trade reconciliation, boosting accounting accuracy by 20%</li>
+                    <li>Optimized MySQL and Elasticsearch queries for books and finance data, cutting execution time by 15%</li>
+                    <li>Automated regulatory data ingestion with shell scripts on Linux, saving 10 hours/week</li>
+                    <li>Collaborated on user requirements for compliance tools, ensuring 100% alignment</li>
+                </ul>
             </div>
         </section>
 
         <!-- Projects Section -->
-        <section id="projects" class="mb-20 fade-in">
-            <h2 class="text-4xl font-bold section-header">Projects</h2>
+        <section id="projects" class="mb-16 fade-in">
+            <h2 class="section-header">Projects</h2>
             <div class="card">
-                <div class="card-inner">
-                    <div class="card-front">
-                        <h3 class="font-semibold text-2xl">Trade Reconciliation System</h3>
-                        <p class="text-sm text-gray-400">Python, MySQL, Linux | Post-Trade Processing</p>
-                        <ul class="list-disc list-inside mt-2">
-                            <li>Built Python tool for accounting and books reconciliation, achieving 98% P&L accuracy</li>
-                            <li>Optimized MySQL queries for finance data, reducing latency by 25%</li>
-                            <li>Automated regulatory validation with shell scripts, saving 15 hours</li>
-                        </ul>
-                        <a href="https://github.com/vcode2407/trade-reconciliation-system" target="_blank" class="text-sm track-click" data-link="Trade Reconciliation GitHub">View on GitHub</a>
-                    </div>
-                    <div class="card-back flex items-center justify-center">
-                        <p class="text-center font-semibold">Technologies: Python, MySQL, Linux, Shell Script</p>
-                    </div>
-                </div>
+                <h3 class="font-semibold text-xl">Trade Reconciliation System</h3>
+                <p class="text-sm text-gray-400">Python, MySQL, Linux | Post-Trade Processing</p>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li>Built Python tool for accounting and books reconciliation, achieving 98% P&L accuracy</li>
+                    <li>Optimized MySQL queries for finance data, reducing latency by 25%</li>
+                    <li>Automated regulatory validation with shell scripts, saving 15 hours</li>
+                </ul>
+                <a href="https://github.com/vcode2407/trade-reconciliation-system" target="_blank" class="text-sm track-click" data-link="Trade Reconciliation GitHub">View on GitHub</a>
             </div>
             <div class="card">
-                <div class="card-inner">
-                    <div class="card-front">
-                        <h3 class="font-semibold text-2xl">API Data Management</h3>
-                        <p class="text-sm text-gray-400">Java, MongoDB, Jenkins | Backend Development</p>
-                        <ul class="list-disc list-inside mt-2">
-                            <li>Developed Java APIs for trade capture, supporting compliance for 10,000+ transactions/day</li>
-                            <li>Integrated MongoDB and Jenkins CI/CD, cutting deployment time by 30%</li>
-                            <li>Enhanced quantitative error handling, ensuring 99% uptime</li>
-                        </ul>
-                        <a href="https://github.com/vcode2407/api-data-management" target="_blank" class="text-sm track-click" data-link="API Data Management GitHub">View on GitHub</a>
-                    </div>
-                    <div class="card-back flex items-center justify-center">
-                        <p class="text-center font-semibold">Technologies: Java, MongoDB, Jenkins</p>
-                    </div>
-                </div>
+                <h3 class="font-semibold text-xl">API Data Management</h3>
+                <p class="text-sm text-gray-400">Java, MongoDB, Jenkins | Backend Development</p>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li>Developed Java APIs for trade capture, supporting compliance for 10,000+ transactions/day</li>
+                    <li>Integrated MongoDB and Jenkins CI/CD, cutting deployment time by 30%</li>
+                    <li>Enhanced quantitative error handling, ensuring 99% uptime</li>
+                </ul>
+                <a href="https://github.com/vcode2407/api-data-management" target="_blank" class="text-sm track-click" data-link="API Data Management GitHub">View on GitHub</a>
             </div>
             <div class="card">
-                <div class="card-inner">
-                    <div class="card-front">
-                        <h3 class="font-semibold text-2xl">Financial Dashboard</h3>
-                        <p class="text-sm text-gray-400">Python, Elasticsearch | Regulatory Reporting</p>
-                        <ul class="list-disc list-inside mt-2">
-                            <li>Created Python dashboard for finance and regulatory P&L monitoring, adopted by 80% of users</li>
-                            <li>Leveraged Elasticsearch for quantitative trade surveillance, improving accuracy by 15%</li>
-                            <li>Reduced load time by 10 seconds via innovation in query design</li>
-                        </ul>
-                        <a href="https://github.com/vcode2407/financial-dashboard" target="_blank" class="text-sm track-click" data-link="Financial Dashboard GitHub">View on GitHub</a>
-                    </div>
-                    <div class="card-back flex items-center justify-center">
-                        <p class="text-center font-semibold">Technologies: Python, Elasticsearch</p>
-                    </div>
-                </div>
+                <h3 class="font-semibold text-xl">Financial Dashboard</h3>
+                <p class="text-sm text-gray-400">Python, Elasticsearch | Regulatory Reporting</p>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    <li>Created Python dashboard for finance and regulatory P&L monitoring, adopted by 80% of users</li>
+                    <li>Leveraged Elasticsearch for quantitative trade surveillance, improving accuracy by 15%</li>
+                    <li>Reduced load time by 10 seconds via innovation in query design</li>
+                </ul>
+                <a href="https://github.com/vcode2407/financial-dashboard" target="_blank" class="text-sm track-click" data-link="Financial Dashboard GitHub">View on GitHub</a>
             </div>
         </section>
 
         <!-- Achievements Section -->
-        <section id="achievements" class="mb-20 fade-in">
-            <h2 class="text-4xl font-bold section-header">Achievements</h2>
+        <section id="achievements" class="mb-16 fade-in">
+            <h2 class="section-header">Achievements</h2>
             <div class="card">
-                <div class="card-inner">
-                    <div class="card-front">
-                        <ul class="list-disc list-inside">
-                            <li>Optimized Elasticsearch queries, cutting finance reconciliation time by 18% (2023)</li>
-                            <li>Authored 30+ shell scripts for regulatory automation, saving 12 hours/week (2022)</li>
-                            <li>Mentored 10+ peers in Python/Java, boosting communication skills and productivity by 15% (2022-Present)</li>
-                            <li>Developed platform tools in Python, enhancing compliance efficiency by 22% (2023)</li>
-                        </ul>
-                    </div>
-                    <div class="card-back flex items-center justify-center">
-                        <p class="text-center font-semibold">Highlighted Skills: Problem Solving, Innovation, Communication</p>
-                    </div>
-                </div>
+                <ul class="list-disc list-inside space-y-1">
+                    <li>Optimized Elasticsearch queries, cutting finance reconciliation time by 18% (2023)</li>
+                    <li>Authored 30+ shell scripts for regulatory automation, saving 12 hours/week (2022)</li>
+                    <li>Mentored 10+ peers in Python/Java, boosting communication skills and productivity by 15% (2022-Present)</li>
+                    <li>Developed platform tools in Python, enhancing compliance efficiency by 22% (2023)</li>
+                </ul>
             </div>
         </section>
 
         <!-- Contact Section -->
-        <section id="contact" class="mb-20 fade-in">
-            <h2 class="text-4xl font-bold section-header">Contact</h2>
-            <p><i class="fas fa-envelope mr-2"></i>Email: <a href="mailto:vkslog69@gmail.com" class="track-click" data-link="Email">vkslog69@gmail.com</a></p>
-            <p><i class="fas fa-phone mr-2"></i>Phone: +91 8309976969</p>
-            <p><i class="fab fa-github mr-2"></i>GitHub: <a href="https://github.com/vcode2407" target="_blank" class="track-click" data-link="GitHub Profile">github.com/vcode2407</a></p>
-            <p><i class="fab fa-linkedin mr-2"></i>LinkedIn: <a href="https://linkedin.com/in/demanvk" target="_blank" class="track-click" data-link="LinkedIn Profile">linkedin.com/in/demanvk</a></p>
-            <p class="mt-6">
-                <a href="resume.pdf" download class="glow-button text-white px-8 py-4 rounded-full text-lg transition track-click" data-link="Resume Download"><i class="fas fa-download mr-2"></i>Download Resume</a>
+        <section id="contact" class="mb-16 fade-in">
+            <h2 class="section-header">Contact</h2>
+            <p><i class="fas fa-envelope mr-2 social-icon"></i>Email: <a href="mailto:vkslog69@gmail.com" class="track-click" data-link="Email">vkslog69@gmail.com</a></p>
+            <p><i class="fas fa-phone mr-2 social-icon"></i>Phone: +91 8309976969</p>
+            <p><i class="fab fa-github mr-2 social-icon"></i>GitHub: <a href="https://github.com/vcode2407" target="_blank" class="track-click" data-link="GitHub Profile">github.com/vcode2407</a></p>
+            <p><i class="fab fa-linkedin mr-2 social-icon"></i>LinkedIn: <a href="https://linkedin.com/in/demanvk" target="_blank" class="track-click" data-link="LinkedIn Profile">linkedin.com/in/demanvk</a></p>
+            <p class="mt-4">
+                <a href="resume.pdf" download class="cta-button text-white track-click" data-link="Resume Download"><i class="fas fa-download mr-2 social-icon"></i>Download Resume</a>
             </p>
         </section>
     </div>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 py-8 text-center">
+    <footer class="bg-slate-900 py-6 text-center relative z-10">
         <p>© 2025 Vinay Kumar. All rights reserved.</p>
     </footer>
 
-    <!-- JavaScript for Sticky Navbar, Click Tracking, and Particles -->
+    <!-- JavaScript for Sticky Navbar and Click Tracking -->
     <script>
         // Sticky Navbar
         window.addEventListener('scroll', () => {
@@ -326,27 +313,6 @@
                 localStorage.setItem('clicks', JSON.stringify(clicks));
             });
         });
-
-        // Particles Background
-        const particles = document.getElementById('particles');
-        for (let i = 0; i < 100; i++) {
-            const particle = document.createElement('div');
-            particle.style.position = 'absolute';
-            particle.style.background = `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.7)`;
-            particle.style.width = `${Math.random() * 3 + 1}px`;
-            particle.style.height = particle.style.width;
-            particle.style.borderRadius = '50%';
-            particle.style.left = `${Math.random() * 100}vw`;
-            particle.style.top = `${Math.random() * 100}vh`;
-            particle.style.animation = `float ${Math.random() * 10 + 5}s infinite`;
-            particles.appendChild(particle);
-        }
     </script>
-    <style>
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-    </style>
 </body>
 </html>
