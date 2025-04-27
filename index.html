@@ -1,0 +1,241 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinay Kumar - Portfolio</title>
+    <meta name="description" content="Portfolio of Vinay Kumar, a final-year B.Tech student specializing in software development for finance, accounting, and compliance.">
+    <meta name="keywords" content="Vinay Kumar, Software Developer, Python, Java, SQL, Elasticsearch, Shell Script, Finance, Accounting, Compliance, Trade Reconciliation">
+    <meta name="author" content="Vinay Kumar">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #1a202c; color: #e2e8f0; }
+        .section-header { border-bottom: 2px solid #4a5568; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .project-card, .experience-card, .achievement-card { background-color: #2d3748; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; }
+        a { color: #63b3ed; }
+        a:hover { color: #90cdf4; }
+        #navbar { transition: all 0.3s ease; }
+        .sticky { position: fixed; top: 0; width: 100%; z-index: 50; }
+        @media (max-width: 640px) { .container { padding: 1rem; } }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Navbar -->
+    <nav id="navbar" class="bg-gray-800 py-4">
+        <div class="container mx-auto flex justify-center space-x-4 sm:space-x-8">
+            <a href="#about" class="text-gray-300 hover:text-white">About</a>
+            <a href="#skills" class="text-gray-300 hover:text-white">Skills</a>
+            <a href="#experience" class="text-gray-300 hover:text-white">Experience</a>
+            <a href="#projects" class="text-gray-300 hover:text-white">Projects</a>
+            <a href="#achievements" class="text-gray-300 hover:text-white">Achievements</a>
+            <a href="#contact" class="text-gray-300 hover:text-white">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- About Section -->
+        <section id="about" class="mb-12">
+            <h2 class="text-2xl font-bold section-header">About Me</h2>
+            <p class="text-lg">
+                I'm Vinay Kumar, a final-year B.Tech student in Computer Science (AI/ML Specialization) at VIT-AP University, passionate about building innovative platform tools for finance, accounting, and compliance. Proficient in Python, Java, SQL, Elasticsearch, and Shell Script, I specialize in trade reconciliation and regulatory systems, leveraging quantitative problem-solving and communication skills to deliver scalable solutions. My goal is to join Tower Research Capital’s Post-Trade team as a Software Engineer I, contributing to cutting-edge financial systems.
+            </p>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="mb-12">
+            <h2 class="text-2xl font-bold section-header">Skills</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <h3 class="font-semibold">Programming</h3>
+                    <ul class="list-disc list-inside">
+                        <li>Python</li>
+                        <li>Java</li>
+                        <li>Shell Script</li>
+                        <li>T-SQL</li>
+                        <li>JavaScript</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold">Databases</h3>
+                    <ul class="list-disc list-inside">
+                        <li>MySQL</li>
+                        <li>MongoDB</li>
+                        <li>PostgreSQL</li>
+                        <li>Elasticsearch</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold">Tools</h3>
+                    <ul class="list-disc list-inside">
+                        <li>Git</li>
+                        <li>Linux</li>
+                        <li>Jenkins</li>
+                        <li>Docker</li>
+                        <li>SoapUI</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold">Technical</h3>
+                    <ul class="list-disc list-inside">
+                        <li>Trade Reconciliation</li>
+                        <li>Scalable Systems</li>
+                        <li>SDLC</li>
+                        <li>Agile</li>
+                        <li>Platform Tools</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold">Domain Knowledge</h3>
+                    <ul class="list-disc list-inside">
+                        <li>Finance</li>
+                        <li>Accounting</li>
+                        <li>Compliance</li>
+                        <li>Regulatory Reporting</li>
+                        <li>Quantitative Analysis</li>
+                        <li>Books</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold">Soft Skills</h3>
+                    <ul class="list-disc list-inside">
+                        <li>Communication Skills</li>
+                        <li>Problem Solving Skills</li>
+                        <li>User Requirements Analysis</li>
+                        <li>Innovation</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="mb-12">
+            <h2 class="text-2xl font-bold section-header">Experience</h2>
+            <div class="experience-card">
+                <h3 class="font-semibold">Software Developer Intern, KC Tech, Coimbatore</h3>
+                <p class="text-sm text-gray-400">Aug 2022 - Nov 2022</p>
+                <ul class="list-disc list-inside mt-2">
+                    <li>Developed Python and Java platform tools for trade reconciliation, boosting accounting accuracy by 20%</li>
+                    <li>Optimized MySQL and Elasticsearch queries for books and finance data, cutting execution time by 15%</li>
+                    <li>Automated regulatory data ingestion with shell scripts on Linux, saving 10 hours/week</li>
+                    <li>Collaborated on user requirements for compliance tools, ensuring 100% alignment</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="mb-12">
+            <h2 class="text-2xl font-bold section-header">Projects</h2>
+            <div class="project-card">
+                <h3 class="font-semibold">Trade Reconciliation System</h3>
+                <p class="text-sm text-gray-400">Python, MySQL, Linux | Post-Trade Processing</p>
+                <ul class="list-disc list-inside mt-2">
+                    <li>Built Python tool for accounting and books reconciliation, achieving 98% P&L accuracy</li>
+                    <li>Optimized MySQL queries for finance data, reducing latency by 25%</li>
+                    <li>Automated regulatory validation with shell scripts, saving 15 hours</li>
+                </ul>
+            </div>
+            <div class="project-card">
+                <h3 class="font-semibold">API Data Management</h3>
+                <p class="text-sm text-gray-400">Java, MongoDB, Jenkins | Backend Development</p>
+                <ul class="list-disc list-inside mt-2">
+                    <li>Developed Java APIs for trade capture, supporting compliance for 10,000+ transactions/day</li>
+                    <li>Integrated MongoDB and Jenkins CI/CD, cutting deployment time by 30%</li>
+                    <li>Enhanced quantitative error handling, ensuring 99% uptime</li>
+                </ul>
+            </div>
+            <div class="project-card">
+                <h3 class="font-semibold">Financial Dashboard</h3>
+                <p class="text-sm text-gray-400">Python, Elasticsearch | Regulatory Reporting</p>
+                <ul class="list-disc list-inside mt-2">
+                    <li>Created Python dashboard for finance and regulatory P&L monitoring, adopted by 80% of users</li>
+                    <li>Leveraged Elasticsearch for quantitative trade surveillance, improving accuracy by 15%</li>
+                    <li>Reduced load time by 10 seconds via innovation in query design</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Achievements Section -->
+        <section id="achievements" class="mb-12">
+            <h2 class="text-2xl font-bold section-header">Achievements</h2>
+            <div class="achievement-card">
+                <ul class="list-disc list-inside">
+                    <li>Optimized Elasticsearch queries, cutting finance reconciliation time by 18% (2023)</li>
+                    <li>Authored 30+ shell scripts for regulatory automation, saving 12 hours/week (2022)</li>
+                    <li>Mentored 10+ peers in Python/Java, boosting communication skills and productivity by 15% (2022-Present)</li>
+                    <li>Developed platform tools in Python, enhancing compliance efficiency by 22% (2023)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="mb-12">
+            <h2 class="text-2xl font-bold section-header">Contact</h2>
+            <p>Email: <a href="mailto:vkslog69@gmail.com">vkslog69@gmail.com</a></p>
+            <p>Phone: +91 8309976969</p>
+            <p>GitHub: <a href="https://github.com/vcode2407" target="_blank">github.com/vcode2407</a></p>
+            <p>LinkedIn: <a href="https://linkedin.com/in/demanvk" target="_blank">linkedin.com/in/demanvk</a></p>
+            <p>
+                Download my resume: 
+                <a href="resume.pdf" download class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Download PDF</a>
+            </p>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-4 text-center">
+        <p>&copy; 2025 Vinay Kumar. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript for Sticky Navbar -->
+    <script>
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('sticky', 'bg-gray-900', 'shadow-md');
+            } else {
+                navbar.classList.remove('sticky', 'bg-gray-900', 'shadow-md');
+            }
+        });
+    </script>
+</body>
+</html>
